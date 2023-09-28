@@ -9,7 +9,12 @@ class Symbol {
 }
 
 class LogicalSentence {
-  toString() {}
+  constructor(sym) {
+    this.sym = sym;
+  }
+  toString() {
+    return `(${this.sym})`;
+  }
 }
 
 class UnaryLogicalSentence extends LogicalSentence {

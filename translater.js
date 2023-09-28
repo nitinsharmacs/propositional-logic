@@ -1,5 +1,6 @@
-const { And, Implies, Or, Not } = require('./Connectives.js');
+const { And, Implies, Or, Not } = require('./connectives.js');
 const {
+  LogicalSentence,
   UnaryLogicalSentence,
   BiLogicalSentence,
   Symbol,

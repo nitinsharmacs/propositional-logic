@@ -7,6 +7,25 @@ class KB {
     this.knowledge.add(information);
   }
 
+  match(logicalSentence) {
+    return [...this.knowledge.values()].filter((proposition) =>
+      proposition.match(logicalSentence)
+    );
+  }
+
+  find(logicalSentence) {
+    return [...this.knowledge.values()].find((proposition) => {
+      // console.log(proposition);
+      // console.log(logicalSentence);
+      // console.log(proposition.equals(logicalSentence));
+      return proposition.equals(logicalSentence);
+    });
+  }
+
+  contains(logicalSentence) {
+    return this.find(logicalSentence) !== undefined;
+  }
+
   toString() {
     return `[\n${[...this.knowledge.values()]
       .map((_) => _.toString())

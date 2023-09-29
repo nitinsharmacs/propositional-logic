@@ -14,7 +14,10 @@ const connectives = {
 };
 
 const parseWithUnaryNotConnective = (word) => {
-  return new UnaryLogicalSentence(new Not(), new Symbol(word));
+  return new UnaryLogicalSentence(
+    new Not(),
+    new LogicalSentence(new Symbol(word))
+  );
 };
 
 const parseCompoundSentence = (sentence) => {
@@ -29,15 +32,17 @@ const parseCompoundSentence = (sentence) => {
 
   const connective = new connectives[conj](conj);
 
-  return new BiLogicalSentence(symbol1, connective, symbol2);
+  return new BiLogicalSentence(
+    new LogicalSentence(symbol1),
+    connective,
+    new LogicalSentence(symbol2)
+  );
 };
 
 const parseSingleWordSentence = (sentence) => {
   const symbol = new Symbol(sentence);
 
-  const connective = new And();
-
-  return new LogicalSentence(symbol, connective, symbol);
+  return new LogicalSentence(symbol);
 };
 
 const isCompoundSentence = (sentence) => sentence.includes(' ');

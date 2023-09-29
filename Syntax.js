@@ -3,6 +3,10 @@ class Symbol {
     this.semantic = semantic;
   }
 
+  equals(symbol) {
+    return this.semantic === symbol?.semantic;
+  }
+
   toString() {
     return this.semantic;
   }
@@ -12,33 +16,75 @@ class LogicalSentence {
   constructor(sym) {
     this.sym = sym;
   }
+
+  match(logicalSentence) {
+    return this.sym.equals(logicalSentence.sym);
+  }
+
   toString() {
-    return `(${this.sym})`;
+    return `${this.sym}`;
+  }
+
+  type() {
+    return '';
+  }
+
+  equals(logicalSentence) {
+    return this.match(logicalSentence);
   }
 }
 
 class UnaryLogicalSentence extends LogicalSentence {
-  constructor(connective, sym1) {
+  constructor(connective, atomicLogicalSentence) {
     super();
     this.connective = connective;
-    this.sym1 = sym1;
+    this.atomicLogicalSentence = atomicLogicalSentence;
+  }
+
+  match(logicalSentence) {
+    return this.atomicLogicalSentence.match(logicalSentence);
   }
 
   toString() {
-    return `(${this.connective} ${this.sym1})`;
+    return `(${this.connective} ${this.atomicLogicalSentence})`;
+  }
+
+  type() {
+    return this.connective.type;
+  }
+
+  equals(logicalSentence) {
+    return (
+      this.connective.equals(logicalSentence.connective) &&
+      this.atomicLogicalSentence.equals(logicalSentence)
+    );
   }
 }
 
 class BiLogicalSentence extends LogicalSentence {
-  constructor(sym1, connective, sym2) {
+  constructor(atomicLogicalSentence1, connective, atomicLogicalSentence2) {
     super();
-    this.sym1 = sym1;
+    this.sentences = [atomicLogicalSentence1, atomicLogicalSentence2];
     this.connective = connective;
-    this.sym2 = sym2;
+  }
+
+  match(logicalSentence) {
+    return this.sentences.some((sentence) => sentence.match(logicalSentence));
   }
 
   toString() {
-    return `(${this.sym1} ${this.connective} ${this.sym2})`;
+    return `(${this.sentences[0]} ${this.connective} ${this.sentences[1]})`;
+  }
+
+  type() {
+    return this.connective.type;
+  }
+
+  equals(logicalSentence) {
+    return (
+      this.connective.equals(logicalSentence.connective) &&
+      this.sentences.every((sentence) => sentence.equals(logicalSentence))
+    );
   }
 }
 

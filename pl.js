@@ -5,7 +5,7 @@ const parse = require('./translater.js');
 const main = () => {
   const propositions = ['not Rain implies Wet', 'not Wet'];
 
-  console.log(parse(propositions[0]).toString());
+  console.log(JSON.stringify(parse(propositions[0])));
   // const kb = new KB();
   // propositions.forEach((p) => kb.add(parse(p)));
 

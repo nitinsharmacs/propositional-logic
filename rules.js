@@ -1,5 +1,4 @@
-const { UnaryLogicalSentence } = require('./Syntax');
-const { Not } = require('./connectives');
+const { UnaryLogicalSentence, Not } = require('./Syntax');
 
 class Rules {
   static applyModusPonensOn(knowledgeBase, goal) {

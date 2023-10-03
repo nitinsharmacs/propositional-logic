@@ -20,24 +20,43 @@ const parseWithUnaryNotConnective = (word) => {
 
 class Tokenizer {
   static build(sentence) {
-    return function* () {
+    return (() => {
       const words = sentence.split(' ');
       let index = 0;
-      while (index <= words.length) {
-        yield words[index];
-        index++;
+      // console.log(words.length);
+      // console.log(index);
+      const next = () => {
+        return words[index++];
       }
-    };
+
+      const hasNext = () => index < words.length;
+
+      return {
+        next,
+        hasNext
+      };
+    })()
+    // return function* () {
+    //   const words = sentence.split(' ');
+    //   let index = 0;
+    //   while (index <= words.length) {
+    //     yield words[index];
+    //     index++;
+    //   }
+    // };
   }
 }
+
 const parseCompoundSentence = (sentence) => {
   const [word1, conj, word2] = sentence.split(' ');
 
   const tokenizer = Tokenizer.build(sentence);
   const builder = LogicalSentence.builder();
-
+  // console.log(builder);
+  // console.log(tokenizer.hasNext());
   while (tokenizer.hasNext()) {
     const token = tokenizer.next();
+    // console.log(token);
     if (token === 'not') {
       builder.add(
         new LogicalSentence([new Symbol(tokenizer.next())], new Not())
@@ -48,6 +67,12 @@ const parseCompoundSentence = (sentence) => {
     if (token === 'and') {
       builder.add(new Symbol(tokenizer.next()));
       builder.combine(new And());
+      continue;
+    }
+
+    if (token === 'implies') {
+      builder.add(new Symbol(tokenizer.next()));
+      builder.combine(new Implies());
       continue;
     }
 

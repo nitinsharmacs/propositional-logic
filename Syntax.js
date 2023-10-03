@@ -18,6 +18,9 @@ class LogicalSentence {
   }
 
   match(logicalSentence) {
+    if (logicalSentence instanceof UnaryLogicalSentence) {
+      return this.sym.equals(logicalSentence.atomicLogicalSentence.sym);
+    }
     return this.sym.equals(logicalSentence.sym);
   }
 

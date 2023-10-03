@@ -1,3 +1,6 @@
+const { UnaryLogicalSentence } = require('./Syntax');
+const { Not } = require('./connectives');
+
 class Rules {
   static applyModusPonensOn(knowledgeBase, goal) {
     const propositions = knowledgeBase.match(goal).filter((_) => {
@@ -5,13 +8,32 @@ class Rules {
     });
 
     propositions.forEach((proposition) => {
-      if (Rules.findAntecedant(knowledgeBase, proposition)) {
+      if (Rules.#findAntecedant(knowledgeBase, proposition)) {
         knowledgeBase.add(proposition.sentences[1]);
       }
     });
   }
 
-  static findAntecedant(knowledgeBase, proposition) {
+  static applyModusTollens(knowledgeBase, goal) {
+    const propositions = knowledgeBase.match(goal).filter((_) => {
+      return _.type() === 'implies';
+    });
+
+    propositions.forEach((proposition) => {
+      const consequentNegate = new UnaryLogicalSentence(
+        new Not(),
+        proposition.sentences[1]
+      );
+
+      if (knowledgeBase.find(consequentNegate)) {
+        knowledgeBase.add(
+          new UnaryLogicalSentence(new Not(), proposition.sentences[0])
+        );
+      }
+    });
+  }
+
+  static #findAntecedant(knowledgeBase, proposition) {
     return knowledgeBase.find(proposition.sentences[0]);
   }
 }

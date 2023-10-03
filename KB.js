@@ -15,9 +15,6 @@ class KB {
 
   find(logicalSentence) {
     return [...this.knowledge.values()].find((proposition) => {
-      // console.log(proposition);
-      // console.log(logicalSentence);
-      // console.log(proposition.equals(logicalSentence));
       return proposition.equals(logicalSentence);
     });
   }

@@ -3,12 +3,7 @@ const Engine = require('./engine.js');
 const parse = require('./translater.js');
 
 const main = () => {
-  const propositions = [
-    'Rain implies Puddle',
-    'Puddle implies Wet',
-    'Puddle implies Rain',
-    'Puddle',
-  ];
+  const propositions = ['Rain implies Wet', 'Rain'];
 
   const kb = new KB();
   propositions.forEach((p) => kb.add(parse(p)));
@@ -20,6 +15,7 @@ const main = () => {
   console.log(Engine.queryOn('Wet?', kb));
   console.log('================================');
   console.log(kb.toString());
+  console.log('================================');
 };
 
 main();

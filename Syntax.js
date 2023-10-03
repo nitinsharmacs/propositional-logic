@@ -65,7 +65,7 @@ class SentenceBuilder {
   }
 
   combine(connective) {
-    this.subsentences = [new LogicalSentence([this.subsentences], connective)];
+    this.subsentences = [new LogicalSentence(this.subsentences, connective)];
   }
 
   finish() {

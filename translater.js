@@ -31,9 +31,16 @@ class Tokenizer {
 
       const hasNext = () => index < words.length;
 
+      const rest = () => {
+        const restof = words.slice(index).join(' ');
+        console.log(restof);
+        index = words.length;
+        return restof;
+      };
       return {
         next,
-        hasNext
+        hasNext,
+        rest
       };
     })()
     // return function* () {
@@ -71,7 +78,7 @@ const parseCompoundSentence = (sentence) => {
     }
 
     if (token === 'implies') {
-      builder.add(new Symbol(tokenizer.next()));
+      builder.add(parseCompoundSentence(tokenizer.rest()));
       builder.combine(new Implies());
       continue;
     }

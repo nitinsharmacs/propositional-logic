@@ -18,19 +18,53 @@ const parseWithUnaryNotConnective = (word) => {
   return new LogicalSentence([new Symbol(word)], new Not());
 };
 
+class Tokenizer {
+  static build(sentence) {
+    return function* () {
+      const words = sentence.split(' ');
+      let index = 0;
+      while (index <= words.length) {
+        yield words[index];
+        index++;
+      }
+    };
+  }
+}
 const parseCompoundSentence = (sentence) => {
   const [word1, conj, word2] = sentence.split(' ');
 
-  if (word1 === 'not') {
-    return parseWithUnaryNotConnective(conj);
+  const tokenizer = Tokenizer.build(sentence);
+  const builder = LogicalSentence.builder();
+
+  while (tokenizer.hasNext()) {
+    const token = tokenizer.next();
+    if (token === 'not') {
+      builder.add(
+        new LogicalSentence([new Symbol(tokenizer.next())], new Not())
+      );
+      continue;
+    }
+
+    if (token === 'and') {
+      builder.add(new Symbol(tokenizer.next()));
+      builder.combine(new And());
+      continue;
+    }
+
+    builder.add(new Symbol(token));
   }
 
-  const symbol1 = new Symbol(word1);
-  const symbol2 = new Symbol(word2);
+  return builder.finish();
+  // if (word1 === 'not') {
+  //   return parseWithUnaryNotConnective(conj);
+  // }
 
-  const connective = new connectives[conj](conj);
+  // const symbol1 = new Symbol(word1);
+  // const symbol2 = new Symbol(word2);
 
-  return new LogicalSentence([symbol1, symbol2], connective);
+  // const connective = new connectives[conj](conj);
+
+  // return new LogicalSentence([symbol1, symbol2], connective);
 };
 
 const parseSingleWordSentence = (sentence) => {
@@ -41,9 +75,6 @@ const parseSingleWordSentence = (sentence) => {
 
 const isCompoundSentence = (sentence) => sentence.includes(' ');
 
-const parse = (sentence) =>
-  isCompoundSentence(sentence)
-    ? parseCompoundSentence(sentence)
-    : parseSingleWordSentence(sentence);
+const parse = (sentence) => parseCompoundSentence(sentence);
 
 module.exports = parse;

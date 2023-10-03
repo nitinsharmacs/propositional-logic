@@ -23,10 +23,23 @@ class LogicalSentence {
   // }
 
   toString() {
-    if (this.connective instanceof Not) {
-      return `(${this.connective} ${this.sentences[0]})`;
+    let openingBraces = '(';
+    let closingBraces = ')';
+
+    if (!this.connective) {
+      openingBraces = '';
+      closingBraces = '';
     }
-    return '(' + this.sentences.join(` ${this.connective} `) + ')';
+
+    if (this.connective instanceof Not) {
+      return `${openingBraces}${this.connective} ${this.sentences[0]}${closingBraces}`;
+    }
+
+    return (
+      openingBraces +
+      this.sentences.join(` ${this.connective} `) +
+      closingBraces
+    );
   }
 
   // type() {
@@ -36,6 +49,28 @@ class LogicalSentence {
   // equals(logicalSentence) {
   //   return this.match(logicalSentence);
   // }
+
+  static builder() {
+    return new SentenceBuilder();
+  }
+}
+
+class SentenceBuilder {
+  constructor() {
+    this.subsentences = [];
+  }
+
+  add(sentence) {
+    this.subsentences.push(sentence);
+  }
+
+  combine(connective) {
+    this.subsentences = [new LogicalSentence([this.subsentences], connective)];
+  }
+
+  finish() {
+    return this.subsentences[0];
+  }
 }
 
 class Connective {

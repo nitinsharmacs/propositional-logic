@@ -13,87 +13,140 @@ class Symbol {
 }
 
 class LogicalSentence {
-  constructor(sym) {
-    this.sym = sym;
+  constructor(sentences, connective) {
+    this.sentences = sentences;
+    this.connective = connective;
   }
 
-  match(logicalSentence) {
-    if (logicalSentence instanceof UnaryLogicalSentence) {
-      return this.sym.equals(logicalSentence.atomicLogicalSentence.sym);
+  // match(logicalSentence) {
+  //   return this.sym.equals(logicalSentence.sym);
+  // }
+
+  toString() {
+    if (this.connective instanceof Not) {
+      return `(${this.connective} ${this.sentences[0]})`;
     }
-    return this.sym.equals(logicalSentence.sym);
+    return '(' + this.sentences.join(` ${this.connective} `) + ')';
   }
 
-  toString() {
-    return `${this.sym}`;
+  // type() {
+  //   return '';
+  // }
+
+  // equals(logicalSentence) {
+  //   return this.match(logicalSentence);
+  // }
+}
+
+class Connective {
+  constructor(type) {
+    this.type = type;
   }
 
-  type() {
-    return '';
-  }
-
-  equals(logicalSentence) {
-    return this.match(logicalSentence);
+  equals(connective) {
+    return this.type === connective?.type;
   }
 }
 
-class UnaryLogicalSentence extends LogicalSentence {
-  constructor(connective, atomicLogicalSentence) {
-    super();
-    this.connective = connective;
-    this.atomicLogicalSentence = atomicLogicalSentence;
-  }
-
-  match(logicalSentence) {
-    return this.atomicLogicalSentence.match(logicalSentence);
+class And extends Symbol {
+  constructor() {
+    super('and');
   }
 
   toString() {
-    return `(${this.connective} ${this.atomicLogicalSentence})`;
-  }
-
-  type() {
-    return this.connective.type;
-  }
-
-  equals(logicalSentence) {
-    return (
-      this.connective.equals(logicalSentence.connective) &&
-      this.atomicLogicalSentence.equals(logicalSentence)
-    );
+    return '∧';
   }
 }
 
-class BiLogicalSentence extends LogicalSentence {
-  constructor(atomicLogicalSentence1, connective, atomicLogicalSentence2) {
-    super();
-    this.sentences = [atomicLogicalSentence1, atomicLogicalSentence2];
-    this.connective = connective;
-  }
-
-  match(logicalSentence) {
-    return this.sentences.some((sentence) => sentence.match(logicalSentence));
+class Implies extends Symbol {
+  constructor() {
+    super('implies');
   }
 
   toString() {
-    return `(${this.sentences[0]} ${this.connective} ${this.sentences[1]})`;
-  }
-
-  type() {
-    return this.connective.type;
-  }
-
-  equals(logicalSentence) {
-    return (
-      this.connective.equals(logicalSentence.connective) &&
-      this.sentences.every((sentence) => sentence.equals(logicalSentence))
-    );
+    return '→';
   }
 }
+
+class Or extends Symbol {
+  constructor() {
+    super('or');
+  }
+
+  toString() {
+    return '∨';
+  }
+}
+
+class Not extends Connective {
+  constructor() {
+    super('not');
+  }
+
+  toString() {
+    return '¬';
+  }
+}
+
+// class UnaryLogicalSentence extends LogicalSentence {
+//   constructor(connective, atomicLogicalSentence) {
+//     super();
+//     this.connective = connective;
+//     this.atomicLogicalSentence = atomicLogicalSentence;
+//   }
+
+//   match(logicalSentence) {
+//     return this.atomicLogicalSentence.match(logicalSentence);
+//   }
+
+//   toString() {
+//     return `(${this.connective} ${this.atomicLogicalSentence})`;
+//   }
+
+//   type() {
+//     return this.connective.type;
+//   }
+
+//   equals(logicalSentence) {
+//     return (
+//       this.connective.equals(logicalSentence.connective) &&
+//       this.atomicLogicalSentence.equals(logicalSentence)
+//     );
+//   }
+// }
+
+// class BiLogicalSentence extends LogicalSentence {
+//   constructor(atomicLogicalSentence1, connective, atomicLogicalSentence2) {
+//     super();
+//     this.sentences = [atomicLogicalSentence1, atomicLogicalSentence2];
+//     this.connective = connective;
+//   }
+
+//   match(logicalSentence) {
+//     return this.sentences.some((sentence) => sentence.match(logicalSentence));
+//   }
+
+//   toString() {
+//     return `(${this.sentences[0]} ${this.connective} ${this.sentences[1]})`;
+//   }
+
+//   type() {
+//     return this.connective.type;
+//   }
+
+//   equals(logicalSentence) {
+//     return (
+//       this.connective.equals(logicalSentence.connective) &&
+//       this.sentences.every((sentence) => sentence.equals(logicalSentence))
+//     );
+//   }
+// }
 
 module.exports = {
   LogicalSentence,
-  BiLogicalSentence,
-  UnaryLogicalSentence,
   Symbol,
+  Not,
+  Or,
+  Implies,
+  And,
 };

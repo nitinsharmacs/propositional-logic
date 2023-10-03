@@ -1,9 +1,10 @@
-const { And, Implies, Or, Not } = require('./connectives.js');
 const {
   LogicalSentence,
-  UnaryLogicalSentence,
-  BiLogicalSentence,
   Symbol,
+  And,
+  Implies,
+  Or,
+  Not,
 } = require('./Syntax.js');
 
 const connectives = {
@@ -14,10 +15,7 @@ const connectives = {
 };
 
 const parseWithUnaryNotConnective = (word) => {
-  return new UnaryLogicalSentence(
-    new Not(),
-    new LogicalSentence(new Symbol(word))
-  );
+  return new LogicalSentence([new Symbol(word)], new Not());
 };
 
 const parseCompoundSentence = (sentence) => {
@@ -32,17 +30,13 @@ const parseCompoundSentence = (sentence) => {
 
   const connective = new connectives[conj](conj);
 
-  return new BiLogicalSentence(
-    new LogicalSentence(symbol1),
-    connective,
-    new LogicalSentence(symbol2)
-  );
+  return new LogicalSentence([symbol1, symbol2], connective);
 };
 
 const parseSingleWordSentence = (sentence) => {
   const symbol = new Symbol(sentence);
 
-  return new LogicalSentence(symbol);
+  return new LogicalSentence([symbol]);
 };
 
 const isCompoundSentence = (sentence) => sentence.includes(' ');

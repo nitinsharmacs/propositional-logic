@@ -18,9 +18,28 @@ class LogicalSentence {
     this.connective = connective;
   }
 
-  // match(logicalSentence) {
-  //   return this.sym.equals(logicalSentence.sym);
-  // }
+  match(logicalSentence) {
+    return this.sentences.some((sentence) => {
+      return sentence instanceof LogicalSentence
+        ? sentence.match(logicalSentence)
+        : logicalSentence.sentences.every((s) =>
+            this.sentences.some((_s) => _s.equals(s))
+          );
+    });
+  }
+
+  equals(logicalSentence) {
+    return (
+      this.connective?.equals(logicalSentence.connective) &&
+      this.#equalsSentences(logicalSentence)
+    );
+  }
+
+  #equalsSentences(logicalSentence) {
+    return this.sentences.every((sentence, index) => {
+      return sentence.equals(logicalSentence.sentences[index]);
+    });
+  }
 
   toString() {
     let openingBraces = '(';

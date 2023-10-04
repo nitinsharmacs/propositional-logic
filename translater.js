@@ -22,90 +22,60 @@ class Tokenizer {
   static build(sentence) {
     return (() => {
       const words = sentence.split(' ');
+
       let index = 0;
-      // console.log(words.length);
-      // console.log(index);
       const next = () => {
         return words[index++];
-      }
+      };
 
       const hasNext = () => index < words.length;
 
       const rest = () => {
         const restof = words.slice(index).join(' ');
-        console.log(restof);
+
         index = words.length;
         return restof;
       };
       return {
         next,
         hasNext,
-        rest
+        rest,
       };
-    })()
-    // return function* () {
-    //   const words = sentence.split(' ');
-    //   let index = 0;
-    //   while (index <= words.length) {
-    //     yield words[index];
-    //     index++;
-    //   }
-    // };
+    })();
   }
 }
 
-const parseCompoundSentence = (sentence) => {
-  const [word1, conj, word2] = sentence.split(' ');
+const buildSentence = (tokenizer, builder) => {
+  const token = tokenizer.next();
 
-  const tokenizer = Tokenizer.build(sentence);
-  const builder = LogicalSentence.builder();
-  // console.log(builder);
-  // console.log(tokenizer.hasNext());
-  while (tokenizer.hasNext()) {
-    const token = tokenizer.next();
-    // console.log(token);
-    if (token === 'not') {
-      builder.add(
+  switch (token) {
+    case 'not':
+      return builder.add(
         new LogicalSentence([new Symbol(tokenizer.next())], new Not())
       );
-      continue;
-    }
-
-    if (token === 'and') {
+    case 'and':
       builder.add(new Symbol(tokenizer.next()));
       builder.combine(new And());
-      continue;
-    }
-
-    if (token === 'implies') {
+      return;
+    case 'implies':
       builder.add(parseCompoundSentence(tokenizer.rest()));
       builder.combine(new Implies());
-      continue;
-    }
+      return;
+    default:
+      builder.add(new Symbol(token));
+  }
+};
 
-    builder.add(new Symbol(token));
+const parseCompoundSentence = (sentence) => {
+  const tokenizer = Tokenizer.build(sentence);
+  const builder = LogicalSentence.builder();
+
+  while (tokenizer.hasNext()) {
+    buildSentence(tokenizer, builder);
   }
 
   return builder.finish();
-  // if (word1 === 'not') {
-  //   return parseWithUnaryNotConnective(conj);
-  // }
-
-  // const symbol1 = new Symbol(word1);
-  // const symbol2 = new Symbol(word2);
-
-  // const connective = new connectives[conj](conj);
-
-  // return new LogicalSentence([symbol1, symbol2], connective);
 };
-
-const parseSingleWordSentence = (sentence) => {
-  const symbol = new Symbol(sentence);
-
-  return new LogicalSentence([symbol]);
-};
-
-const isCompoundSentence = (sentence) => sentence.includes(' ');
 
 const parse = (sentence) => parseCompoundSentence(sentence);
 

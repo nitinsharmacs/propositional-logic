@@ -3,12 +3,16 @@ const Engine = require('./engine.js');
 const parse = require('./translater.js');
 
 const main = () => {
-  const propositions = ['not Rain implies not Wet', 'Rain implies not wet'];
+  const propositions = [
+    'Rain',
+    'not Rain implies not Wet',
+    'Rain implies not wet',
+  ];
 
-  // console.log(JSON.stringify(parse(propositions[0])));
-  // console.log(parse(propositions[0]).toString());
+  propositions.forEach((proposition) =>
+    console.log(parse(proposition).toString())
+  );
 
-  propositions.forEach(proposition => console.log(parse(proposition).toString()))
   // const kb = new KB();
   // propositions.forEach((p) => kb.add(parse(p)));
 

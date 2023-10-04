@@ -6,7 +6,7 @@ describe('parse', () => {
   it('should parse a single sentence', () => {
     const sentence = 'Rain';
 
-    const expected = new LogicalSentence([new Symbol('Rain')]);
+    const expected = new Symbol('Rain');
 
     const actual = parse(sentence);
 
@@ -36,11 +36,11 @@ describe('parse', () => {
     assert.deepStrictEqual(actual, expected);
   });
 
-  it.only('should parse a compound sentence', () => {
+  it('should parse a compound sentence', () => {
     const sentence = 'not Rain implies Wet';
 
     const expected = new LogicalSentence(
-      [new LogicalSentence([new Symbol('Rain')]), new Symbol('Wet')],
+      [new LogicalSentence([new Symbol('Rain')], new Not()), new Symbol('Wet')],
       new Implies()
     );
 

@@ -13,7 +13,7 @@ class Symbol {
 }
 
 class LogicalSentence {
-  constructor(sentences, connective) {
+  constructor(sentences, connective = new Connective('')) {
     this.sentences = sentences;
     this.connective = connective;
   }
@@ -29,6 +29,10 @@ class LogicalSentence {
   }
 
   equals(logicalSentence) {
+    // console.log(logicalSentence);
+    // console.log(this);
+    // console.log(this.connective?.equals(logicalSentence.connective));
+    // console.log(this.#equalsSentences(logicalSentence));
     return (
       this.connective?.equals(logicalSentence.connective) &&
       this.#equalsSentences(logicalSentence)
@@ -37,6 +41,8 @@ class LogicalSentence {
 
   #equalsSentences(logicalSentence) {
     return this.sentences.every((sentence, index) => {
+      // console.log(sentence);
+      // console.log(logicalSentence.sentences[index]);
       return sentence.equals(logicalSentence.sentences[index]);
     });
   }
@@ -61,9 +67,9 @@ class LogicalSentence {
     );
   }
 
-  // type() {
-  //   return '';
-  // }
+  type() {
+    return this.connective ? this.connective.type : '';
+  }
 
   // equals(logicalSentence) {
   //   return this.match(logicalSentence);
@@ -78,9 +84,13 @@ class Connective {
   equals(connective) {
     return this.type === connective?.type;
   }
+
+  toString() {
+    return '';
+  }
 }
 
-class And extends Symbol {
+class And extends Connective {
   constructor() {
     super('and');
   }
@@ -90,7 +100,7 @@ class And extends Symbol {
   }
 }
 
-class Implies extends Symbol {
+class Implies extends Connective {
   constructor() {
     super('implies');
   }
@@ -100,7 +110,7 @@ class Implies extends Symbol {
   }
 }
 
-class Or extends Symbol {
+class Or extends Connective {
   constructor() {
     super('or');
   }

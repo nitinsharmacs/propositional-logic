@@ -1,4 +1,4 @@
-const { UnaryLogicalSentence, Not } = require('./Syntax');
+const { UnaryLogicalSentence, Not, LogicalSentence } = require('./Syntax');
 
 class Rules {
   static applyModusPonensOn(knowledgeBase, goal) {
@@ -8,7 +8,7 @@ class Rules {
 
     propositions.forEach((proposition) => {
       if (Rules.#findAntecedant(knowledgeBase, proposition)) {
-        knowledgeBase.add(proposition.sentences[1]);
+        knowledgeBase.add(new LogicalSentence([proposition.sentences[1]]));
       }
     });
   }
@@ -33,7 +33,7 @@ class Rules {
   }
 
   static #findAntecedant(knowledgeBase, proposition) {
-    return knowledgeBase.find(proposition.sentences[0]);
+    return knowledgeBase.find(new LogicalSentence([proposition.sentences[0]]));
   }
 }
 

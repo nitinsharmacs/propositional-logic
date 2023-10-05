@@ -1,6 +1,6 @@
 const assert = require('assert');
-const parse = require('../translater');
-const { LogicalSentence, Symbol, Implies, Not } = require('../Syntax');
+const parse = require('../src/translater');
+const { LogicalSentence, Symbol, Implies, Not } = require('../src/Syntax');
 
 describe('parse', () => {
   it('should parse a single sentence', () => {

@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { LogicalSentence, Symbol, And, Not, Implies } = require('../Syntax');
+const { LogicalSentence, Symbol, And, Not, Implies } = require('../src/Syntax');
 
 describe('LogicalSentence', () => {
   it('should return bi connective sentence', () => {

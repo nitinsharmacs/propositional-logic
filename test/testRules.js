@@ -1,8 +1,14 @@
 const assert = require('assert');
 
-const KB = require('../KB.js');
-const Rules = require('../Rules.js');
-const { LogicalSentence, Symbol, Implies, Not, And } = require('../Syntax.js');
+const KB = require('../src/KB.js');
+const Rules = require('../src/rules.js');
+const {
+  LogicalSentence,
+  Symbol,
+  Implies,
+  Not,
+  And,
+} = require('../src/Syntax.js');
 
 describe('Rules', () => {
   describe('applyModusPonens', () => {

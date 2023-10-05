@@ -1,6 +1,6 @@
 const assert = require('assert');
-const KB = require('../KB');
-const { LogicalSentence, Symbol, Implies } = require('../Syntax');
+const KB = require('../src/KB');
+const { LogicalSentence, Symbol, Implies } = require('../src/Syntax');
 
 describe('KB', () => {
   it('should find a logical sentence', () => {

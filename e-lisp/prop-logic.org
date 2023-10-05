@@ -1,0 +1,87 @@
+#+TITLE: Propositional Logic With e-lisp
+* Knowledge Base
+The knowledge base is an plug-able application, where every newly added rule plugs in additional functions into the existing knowledge base. The [[https://en.wikipedia.org/wiki/Homoiconicity][homoiconic]] nature of elisp is exploited to achieve this.
+
+So for this exploration we would be looking at the implementation of =Modus Ponens= and =Modus Tollens= using the idea of function-data supper position.
+** Using the knowledge base
+Setting the rule
+_Rule 1_
+
+=(rule a 'implies b)=
+
+/Observation/
+=(~b)= -> =~a=
+=(b)= -> undefined
+
+
+_Rule 2_
+=(rule a 'implies ~b)=
+
+/Observation/
+=(~b)= -> undefined
+=(b)= -> =~a=
+
+
+_Rule 3_
+=(rule ~a 'implies ~b)=
+
+/Observation/
+=(~b)= -> undefined
+=(b)= -> =a=
+
+
+_Rule 4_
+=(rule ~a 'implies b)=
+
+/Observation/
+=(~b)= -> =a=
+=(b)= -> undefined
+
+
+#+begin_src emacs-lisp :session
+  (defun ~ (arg1)
+    (if (string-prefix-p "~" arg1)
+        (car (last (split-string arg1 "~")))
+      (concat "~" arg1)))
+
+  (defun -> (arg1 arg2)
+    (defalias (intern (~ arg2)) (lambda () (~ arg1))))
+
+  (defun rule (arg1 connector arg2)
+    (funcall connector arg1 arg2))
+#+end_src
+
+#+RESULTS:
+: rule
+
+#+begin_src emacs-lisp :session
+  (defun prop1 ()
+    (rule "Rain" '-> "Wet")
+    (~Wet))
+
+  (defun prop2 ()
+    (rule "Rain" '-> "~Wet")
+    (Wet))
+
+  (defun prop3 ()
+    (rule "~Rain" '-> "Wet")
+    (~Wet))
+
+  (defun prop4 ()
+    (rule "~Rain" '-> "~Wet")
+    (Wet))
+
+
+#+end_src
+
+
+#+RESULTS:
+: prop4
+
+#+begin_src emacs-lisp :session
+  (prop3)
+#+end_src
+
+#+RESULTS:
+: Rain
+

@@ -9,6 +9,7 @@ class Rules {
     propositions.forEach((proposition) => {
       if (Rules.#findAntecedant(knowledgeBase, proposition)) {
         const [, consequent] = proposition.sentences;
+
         if (consequent instanceof LogicalSentence) {
           return knowledgeBase.add(consequent);
         }
@@ -20,9 +21,11 @@ class Rules {
 
   static #findAntecedant(knowledgeBase, proposition) {
     const [antecedant] = proposition.sentences;
+
     if (antecedant instanceof LogicalSentence) {
       return knowledgeBase.find(antecedant);
     }
+
     return knowledgeBase.find(new LogicalSentence([antecedant]));
   }
 }

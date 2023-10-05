@@ -40,5 +40,27 @@ describe('Rules', () => {
 
       assert.ok(kb.find(goal));
     });
+
+    it('should apply modus ponens on kb with complex consequent', () => {
+      const kb = new KB();
+
+      kb.add(
+        new LogicalSentence(
+          [
+            new Symbol('Rain'),
+            new LogicalSentence([new Symbol('Wet')], new Not()),
+          ],
+          new Implies()
+        )
+      );
+
+      kb.add(new LogicalSentence([new Symbol('Rain')]));
+
+      const goal = new LogicalSentence([new Symbol('Wet')], new Not());
+
+      Rules.applyModusPonensOn(kb, goal);
+
+      assert.ok(kb.contains(goal));
+    });
   });
 });

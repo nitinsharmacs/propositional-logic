@@ -11,6 +11,7 @@ class Engine {
     const logicalQuery = Engine.parse(query);
 
     Rules.applyModusPonensOn(knowledgeBase, logicalQuery);
+    Rules.applyModusTollens(knowledgeBase, logicalQuery);
 
     return knowledgeBase.contains(logicalQuery);
   }

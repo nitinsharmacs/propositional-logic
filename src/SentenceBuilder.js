@@ -1,4 +1,4 @@
-const { LogicalSentence } = require('./Syntax');
+const { LogicalSentence } = require('./syntax');
 
 class SentenceBuilder {
   constructor() {

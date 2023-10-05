@@ -6,7 +6,7 @@ const {
   Implies,
   Or,
   Not,
-} = require('./Syntax.js');
+} = require('./syntax.js');
 const { Tokenizer } = require('./Tokenizer.js');
 
 const buildSentence = (tokenizer, builder) => {

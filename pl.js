@@ -1,6 +1,6 @@
 const KB = require('./src/KB.js');
-const Engine = require('./src/engine.js');
-const parse = require('./src/translater.js');
+const Engine = require('./src/Engine.js');
+const parse = require('./src/parse.js');
 
 const main = () => {
   const propositions = ['Rain implies Wet', 'not Wet'];

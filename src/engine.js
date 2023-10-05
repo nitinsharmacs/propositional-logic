@@ -1,8 +1,5 @@
-// query => Wet?
-
-const { LogicalSentence } = require('./Syntax.js');
-const Rules = require('./rules.js');
-const parse = require('./translater.js');
+const Rules = require('./Rules.js');
+const parse = require('./parse.js');
 
 class Engine {
   static queryOn(query, knowledgeBase) {

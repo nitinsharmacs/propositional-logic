@@ -28,6 +28,22 @@ class Rules {
 
     return knowledgeBase.find(new LogicalSentence([antecedant]));
   }
+
+  static applyModusTollens(knowledgeBase, goal) {
+    const propositions = knowledgeBase.match(goal).filter((_) => {
+      return _.type() === 'implies';
+    });
+
+    propositions.forEach((proposition) => {
+      const [antecedant, consequent] = proposition.sentences;
+
+      const consequentNegate = new LogicalSentence([consequent], new Not());
+
+      if (knowledgeBase.find(consequentNegate)) {
+        knowledgeBase.add(new LogicalSentence([antecedant], new Not()));
+      }
+    });
+  }
 }
 
 module.exports = Rules;

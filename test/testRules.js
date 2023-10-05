@@ -2,7 +2,7 @@ const assert = require('assert');
 
 const KB = require('../KB.js');
 const Rules = require('../Rules.js');
-const { LogicalSentence, Symbol, Implies, Not } = require('../Syntax.js');
+const { LogicalSentence, Symbol, Implies, Not, And } = require('../Syntax.js');
 
 describe('Rules', () => {
   describe('applyModusPonens', () => {
@@ -61,6 +61,81 @@ describe('Rules', () => {
       Rules.applyModusPonensOn(kb, goal);
 
       assert.ok(kb.contains(goal));
+    });
+  });
+
+  describe('applyModusTollens', () => {
+    it('should add antecedent to kb', () => {
+      const kb = new KB();
+      kb.add(
+        new LogicalSentence(
+          [new Symbol('Rain'), new Symbol('Wet')],
+          new Implies()
+        )
+      );
+      kb.add(new LogicalSentence([new Symbol('Wet')], new Not()));
+
+      const goal = new LogicalSentence([new Symbol('Rain')], new Not());
+
+      Rules.applyModusTollens(kb, goal);
+
+      assert.ok(kb.find(goal));
+    });
+
+    it('should add complex antecedent to kb', () => {
+      const kb = new KB();
+      kb.add(
+        new LogicalSentence(
+          [
+            new LogicalSentence(
+              [new Symbol('Rain'), new Symbol('Thunder')],
+              new And()
+            ),
+            new Symbol('Wet'),
+          ],
+          new Implies()
+        )
+      );
+      kb.add(new LogicalSentence([new Symbol('Wet')], new Not()));
+
+      const goal = new LogicalSentence(
+        [
+          new LogicalSentence(
+            [new Symbol('Rain'), new Symbol('Thunder')],
+            new And()
+          ),
+        ],
+        new Not()
+      );
+
+      Rules.applyModusTollens(kb, goal);
+
+      assert.ok(kb.find(goal));
+    });
+
+    it('should add antecedent with complex consequent to kb', () => {
+      const kb = new KB();
+      kb.add(
+        new LogicalSentence(
+          [
+            new Symbol('Rain'),
+            new LogicalSentence([new Symbol('Wet')], new Not()),
+          ],
+          new Implies()
+        )
+      );
+      kb.add(
+        new LogicalSentence(
+          [new LogicalSentence([new Symbol('Wet')], new Not())],
+          new Not()
+        )
+      );
+
+      const goal = new LogicalSentence([new Symbol('Rain')], new Not());
+
+      Rules.applyModusTollens(kb, goal);
+
+      assert.ok(kb.find(goal));
     });
   });
 });

@@ -22,17 +22,23 @@ const buildSentence = (tokenizer, builder) => {
       builder.combine(new And());
       return;
     case 'implies':
-      builder.add(parseCompoundSentence(tokenizer.rest()));
+      builder.add(parseCompoundSentence(tokenizer.rest(), true));
       builder.combine(new Implies());
       return;
     default:
-      builder.add(new LogicalSentence([new Symbol(token)]));
+      builder.add(new Symbol(token));
   }
 };
 
-const parseCompoundSentence = (sentence) => {
+const parseCompoundSentence = (sentence, revisit = false) => {
   const tokenizer = Tokenizer.build(sentence);
   const builder = SentenceBuilder.builder();
+
+  if (tokenizer.counts() === 1 && !revisit) {
+    return builder
+      .add(new LogicalSentence([new Symbol(tokenizer.next())]))
+      .finish();
+  }
 
   while (tokenizer.hasNext()) {
     buildSentence(tokenizer, builder);

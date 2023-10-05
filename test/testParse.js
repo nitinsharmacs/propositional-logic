@@ -17,15 +17,11 @@ describe('parse', () => {
     const sentence = 'Rain implies Wet';
 
     const expected = new LogicalSentence(
-      [
-        new LogicalSentence([new Symbol('Rain')]),
-        new LogicalSentence([new Symbol('Wet')]),
-      ],
+      [new Symbol('Rain'), new Symbol('Wet')],
       new Implies()
     );
 
     const actual = parse(sentence);
-
     assert.deepStrictEqual(actual, expected);
   });
 
@@ -43,15 +39,11 @@ describe('parse', () => {
     const sentence = 'not Rain implies Wet';
 
     const expected = new LogicalSentence(
-      [
-        new LogicalSentence([new Symbol('Rain')], new Not()),
-        new LogicalSentence([new Symbol('Wet')]),
-      ],
+      [new LogicalSentence([new Symbol('Rain')], new Not()), new Symbol('Wet')],
       new Implies()
     );
 
     const actual = parse(sentence);
-
     assert.deepStrictEqual(actual, expected);
   });
 });

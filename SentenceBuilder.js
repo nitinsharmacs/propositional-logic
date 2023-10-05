@@ -7,10 +7,12 @@ class SentenceBuilder {
 
   add(sentence) {
     this.subsentences.push(sentence);
+    return this;
   }
 
   combine(connective) {
     this.subsentences = [new LogicalSentence(this.subsentences, connective)];
+    return this;
   }
 
   finish() {

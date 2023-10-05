@@ -16,10 +16,14 @@ class Tokenizer {
         index = words.length;
         return restof;
       };
+
+      const counts = () => words.length;
+
       return {
         next,
         hasNext,
         rest,
+        counts,
       };
     })();
   }

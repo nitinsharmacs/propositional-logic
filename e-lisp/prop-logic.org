@@ -40,35 +40,34 @@ _Rule 4_
 
 #+begin_src emacs-lisp :session
   (defun ~ (arg1)
-    (if (string-prefix-p "~" arg1)
-        (car (last (split-string arg1 "~")))
-      (concat "~" arg1)))
+    (setq arg1-name
+          (if (symbolp arg1) (symbol-name arg1) arg1))
+      (if (string-prefix-p "~" arg1-name)
+          (car (last (split-string arg1-name "~")))
+        (concat "~" arg1-name)))
 
   (defun -> (arg1 arg2)
-    (defalias (intern (~ arg2)) (lambda () (~ arg1))))
-
-  (defun rule (arg1 connector arg2)
-    (funcall connector arg1 arg2))
+    (defalias (intern (~ arg2)) (lambda () (~ (symbol-name arg1)))))
 #+end_src
 
 #+RESULTS:
-: rule
+: ->
 
 #+begin_src emacs-lisp :session
   (defun prop1 ()
-    (rule "Rain" '-> "Wet")
+    (-> 'Rain 'Wet)
     (~Wet))
 
   (defun prop2 ()
-    (rule "Rain" '-> "~Wet")
+    (-> 'Rain '~Wet)
     (Wet))
 
   (defun prop3 ()
-    (rule "~Rain" '-> "Wet")
+    (-> '~Rain 'Wet)
     (~Wet))
 
   (defun prop4 ()
-    (rule "~Rain" '-> "~Wet")
+    (-> '~Rain '~Wet)
     (Wet))
 
 
@@ -79,9 +78,9 @@ _Rule 4_
 : prop4
 
 #+begin_src emacs-lisp :session
-  (prop3)
+(prop2)
 #+end_src
 
 #+RESULTS:
-: Rain
+: ~Rain
 

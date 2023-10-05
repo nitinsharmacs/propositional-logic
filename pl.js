@@ -7,6 +7,7 @@ const main = () => {
     'Rain',
     'not Rain implies not Wet',
     'Rain implies not wet',
+    'not Rain',
   ];
 
   propositions.forEach((proposition) =>

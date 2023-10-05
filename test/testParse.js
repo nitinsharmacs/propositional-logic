@@ -32,10 +32,7 @@ describe('parse', () => {
   it('should parse a sentence with unary connective', () => {
     const sentence = 'not Rain';
 
-    const expected = new LogicalSentence(
-      [new LogicalSentence([new Symbol('Rain')])],
-      new Not()
-    );
+    const expected = new LogicalSentence([new Symbol('Rain')], new Not());
 
     const actual = parse(sentence);
 
@@ -47,10 +44,7 @@ describe('parse', () => {
 
     const expected = new LogicalSentence(
       [
-        new LogicalSentence(
-          [new LogicalSentence([new Symbol('Rain')])],
-          new Not()
-        ),
+        new LogicalSentence([new Symbol('Rain')], new Not()),
         new LogicalSentence([new Symbol('Wet')]),
       ],
       new Implies()

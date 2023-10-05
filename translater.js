@@ -15,10 +15,7 @@ const buildSentence = (tokenizer, builder) => {
   switch (token) {
     case 'not':
       return builder.add(
-        new LogicalSentence(
-          [new LogicalSentence([new Symbol(tokenizer.next())])],
-          new Not()
-        )
+        new LogicalSentence([new Symbol(tokenizer.next())], new Not())
       );
     case 'and':
       builder.add(new Symbol(tokenizer.next()));

@@ -44,6 +44,21 @@ class Rules {
       }
     });
   }
+
+  static applyConjuction(knowledgeBase, goal) {
+    const [prop1, prop2] = goal.sentences;
+
+    if (
+      knowledgeBase.contains(
+        prop1 instanceof LogicalSentence ? prop1 : new LogicalSentence([prop1])
+      ) &&
+      knowledgeBase.contains(
+        prop2 instanceof LogicalSentence ? prop2 : new LogicalSentence([prop2])
+      )
+    ) {
+      knowledgeBase.add(goal);
+    }
+  }
 }
 
 module.exports = Rules;

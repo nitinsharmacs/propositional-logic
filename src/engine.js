@@ -9,6 +9,7 @@ class Engine {
 
     Rules.applyModusPonensOn(knowledgeBase, logicalQuery);
     Rules.applyModusTollens(knowledgeBase, logicalQuery);
+    Rules.applyConjuction(knowledgeBase, logicalQuery);
 
     return knowledgeBase.contains(logicalQuery);
   }

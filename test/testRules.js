@@ -144,4 +144,51 @@ describe('Rules', () => {
       assert.ok(kb.find(goal));
     });
   });
+
+  describe.only('applyConjuction', () => {
+    it('should add conjuction of two propositions', () => {
+      const kb = new KB(
+        new Set([
+          new LogicalSentence([new Symbol('Thunder')]),
+          new LogicalSentence([new Symbol('Rain')]),
+        ])
+      );
+
+      const goal = new LogicalSentence(
+        [new Symbol('Thunder'), new Symbol('Rain')],
+        new And()
+      );
+
+      Rules.applyConjuction(kb, goal);
+
+      assert.ok(kb.find(goal));
+    });
+
+    it('should add conjuction of two complex propositions', () => {
+      const kb = new KB(
+        new Set([
+          new LogicalSentence(
+            [new Symbol('Tornado'), new Symbol('Thunder')],
+            new Implies()
+          ),
+          new LogicalSentence([new Symbol('Rain')]),
+        ])
+      );
+
+      const goal = new LogicalSentence(
+        [
+          new LogicalSentence(
+            [new Symbol('Tornado'), new Symbol('Thunder')],
+            new Implies()
+          ),
+          new Symbol('Rain'),
+        ],
+        new And()
+      );
+
+      Rules.applyConjuction(kb, goal);
+
+      assert.ok(kb.find(goal));
+    });
+  });
 });

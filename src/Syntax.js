@@ -29,10 +29,6 @@ class LogicalSentence {
   }
 
   equals(logicalSentence) {
-    // console.log(logicalSentence);
-    // console.log(this);
-    // console.log(this.connective?.equals(logicalSentence.connective));
-    // console.log(this.#equalsSentences(logicalSentence));
     return (
       this.connective?.equals(logicalSentence.connective) &&
       this.#equalsSentences(logicalSentence)
@@ -41,8 +37,6 @@ class LogicalSentence {
 
   #equalsSentences(logicalSentence) {
     return this.sentences.every((sentence, index) => {
-      // console.log(sentence);
-      // console.log(logicalSentence.sentences[index]);
       return sentence.equals(logicalSentence.sentences[index]);
     });
   }
@@ -70,10 +64,6 @@ class LogicalSentence {
   type() {
     return this.connective ? this.connective.type : '';
   }
-
-  // equals(logicalSentence) {
-  //   return this.match(logicalSentence);
-  // }
 }
 
 class Connective {
@@ -129,60 +119,6 @@ class Not extends Connective {
     return '¬';
   }
 }
-
-// class UnaryLogicalSentence extends LogicalSentence {
-//   constructor(connective, atomicLogicalSentence) {
-//     super();
-//     this.connective = connective;
-//     this.atomicLogicalSentence = atomicLogicalSentence;
-//   }
-
-//   match(logicalSentence) {
-//     return this.atomicLogicalSentence.match(logicalSentence);
-//   }
-
-//   toString() {
-//     return `(${this.connective} ${this.atomicLogicalSentence})`;
-//   }
-
-//   type() {
-//     return this.connective.type;
-//   }
-
-//   equals(logicalSentence) {
-//     return (
-//       this.connective.equals(logicalSentence.connective) &&
-//       this.atomicLogicalSentence.equals(logicalSentence)
-//     );
-//   }
-// }
-
-// class BiLogicalSentence extends LogicalSentence {
-//   constructor(atomicLogicalSentence1, connective, atomicLogicalSentence2) {
-//     super();
-//     this.sentences = [atomicLogicalSentence1, atomicLogicalSentence2];
-//     this.connective = connective;
-//   }
-
-//   match(logicalSentence) {
-//     return this.sentences.some((sentence) => sentence.match(logicalSentence));
-//   }
-
-//   toString() {
-//     return `(${this.sentences[0]} ${this.connective} ${this.sentences[1]})`;
-//   }
-
-//   type() {
-//     return this.connective.type;
-//   }
-
-//   equals(logicalSentence) {
-//     return (
-//       this.connective.equals(logicalSentence.connective) &&
-//       this.sentences.every((sentence) => sentence.equals(logicalSentence))
-//     );
-//   }
-// }
 
 module.exports = {
   LogicalSentence,

@@ -33,6 +33,14 @@ A -> B, ~B
 ~A
 ```
 
+### 3. Conjunction
+
+```
+A, B
+----------------
+A ∧ B
+```
+
 ## References
 
 1. [Rules of inferences](https://sites.millersville.edu/bikenaga/math-proof/rules-of-inference/rules-of-inference.html)

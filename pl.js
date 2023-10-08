@@ -1,20 +1,26 @@
 const KB = require('./src/KB.js');
 const Engine = require('./src/Engine.js');
 const parse = require('./src/parse.js');
+const Console = require('./src/Console.js');
 
-const main = () => {
-  const propositions = ['Thunder', 'Rain'];
+const turn = async (kb) => {
+  const statement = await Console.read();
 
+  if (Engine.isQuery(statement)) {
+    Console.printResult(Engine.queryOn(statement, kb));
+    return;
+  }
+
+  kb.add(parse(statement));
+  Console.printLearning();
+};
+
+const main = async () => {
   const kb = new KB();
-  propositions.forEach((p) => kb.add(parse(p)));
-  console.log('================================');
-  console.log(kb.toString());
-  console.log('================================');
 
-  console.log(Engine.queryOn('Rain and Thunder?', kb));
-  console.log('================================');
-  console.log(kb.toString());
-  console.log('================================');
+  while (true) {
+    await turn(kb);
+  }
 };
 
 main();

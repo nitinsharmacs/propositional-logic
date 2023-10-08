@@ -145,7 +145,7 @@ describe('Rules', () => {
     });
   });
 
-  describe.only('applyConjuction', () => {
+  describe('applyConjuction', () => {
     it('should add conjuction of two propositions', () => {
       const kb = new KB(
         new Set([

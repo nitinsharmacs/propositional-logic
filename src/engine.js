@@ -15,7 +15,11 @@ class Engine {
   }
 
   static isInValidQuery(query) {
-    return !query.endsWith('?');
+    return !Engine.isQuery(query);
+  }
+
+  static isQuery(query) {
+    return query.endsWith('?');
   }
 
   static parse(query) {

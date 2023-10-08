@@ -6,7 +6,7 @@ describe('parse', () => {
   it('should parse a single sentence', () => {
     const sentence = 'Rain';
 
-    const expected = new LogicalSentence([new Symbol('Rain')]);
+    const expected = new LogicalSentence([new Symbol('rain')]);
 
     const actual = parse(sentence);
 
@@ -17,7 +17,7 @@ describe('parse', () => {
     const sentence = 'Rain implies Wet';
 
     const expected = new LogicalSentence(
-      [new Symbol('Rain'), new Symbol('Wet')],
+      [new Symbol('rain'), new Symbol('wet')],
       new Implies()
     );
 
@@ -28,7 +28,7 @@ describe('parse', () => {
   it('should parse a sentence with unary connective', () => {
     const sentence = 'not Rain';
 
-    const expected = new LogicalSentence([new Symbol('Rain')], new Not());
+    const expected = new LogicalSentence([new Symbol('rain')], new Not());
 
     const actual = parse(sentence);
 
@@ -39,7 +39,7 @@ describe('parse', () => {
     const sentence = 'not Rain implies Wet';
 
     const expected = new LogicalSentence(
-      [new LogicalSentence([new Symbol('Rain')], new Not()), new Symbol('Wet')],
+      [new LogicalSentence([new Symbol('rain')], new Not()), new Symbol('wet')],
       new Implies()
     );
 

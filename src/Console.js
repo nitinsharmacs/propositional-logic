@@ -7,6 +7,7 @@ class Console {
 
       process.stdin.on('data', (chunk) => {
         res(chunk.trim());
+        process.stdin.removeAllListeners();
       });
 
       process.stdin.on('error', rej);
@@ -25,6 +26,10 @@ class Console {
     process.stdout.write(Console.learningPrompt());
   }
 
+  static printExistence() {
+    process.stdout.write(Console.existencePrompt());
+  }
+
   static queryPrompt() {
     return 'Ask or Tell me 😇.\n>> ';
   }
@@ -39,6 +44,10 @@ class Console {
 
   static learningPrompt() {
     return '--------> I learned something new 😃. <--------\n\n';
+  }
+
+  static existencePrompt() {
+    return '--------> I already knew it 😎. <--------\n\n';
   }
 }
 

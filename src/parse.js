@@ -47,6 +47,8 @@ const parseCompoundSentence = (sentence, revisit = false) => {
   return builder.finish();
 };
 
-const parse = (sentence) => parseCompoundSentence(sentence);
+const sanitise = (sentence) => sentence.trim().toLowerCase();
+
+const parse = (sentence) => parseCompoundSentence(sanitise(sentence));
 
 module.exports = parse;

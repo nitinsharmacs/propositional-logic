@@ -43,9 +43,13 @@ A ∧ B
 
 ## How to use?
 
-To use it, you simply need to run following command.
+To use it, you simply need to run following commands.
 
 ```
+git clone https://github.com/nitinsharmacs/propositional-logic.git
+
+cd propositional-logic
+
 node pl.js
 ```
 

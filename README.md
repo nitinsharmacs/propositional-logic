@@ -41,6 +41,14 @@ A, B
 A ∧ B
 ```
 
+## How to use?
+
+To use it, you simply need to run following command.
+
+```
+node pl.js
+```
+
 ## References
 
 1. [Rules of inferences](https://sites.millersville.edu/bikenaga/math-proof/rules-of-inference/rules-of-inference.html)
